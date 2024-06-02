@@ -19,35 +19,23 @@ type config struct {
 	port int
 	env  string
 	api  string
-
-	// dsn - Data Source Name.
-	// Includes the database type, server address,
-	// database name, and authentication credentials.
-	db struct {
+	
+	// dsn
+	db   struct {
 		dsn string
 	}
-
-	// Stripe configuration parameters.
 	stripe struct {
 		secret string
 		key    string
 	}
 }
 
-// Define the basic structure of the application.
 type application struct {
-	config config
-
-	// Logging everything that happens with the application.
-	infoLog  *log.Logger
-	errorLog *log.Logger
-
-	// Caching our server's most popular requests.
-	// This might require Redis.
+	config        config
+	infoLog       *log.Logger
+	errorLog      *log.Logger
 	templateCache map[string]*template.Template
-
-	// Changed with the const ot the top of the file.
-	version string
+	version       string
 }
 
 func (app *application) serve() error {
@@ -100,15 +88,8 @@ func main() {
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
 
-	// "INFO\t" and the like is the prefix for each logging message.
-	// Position of log.Ldate and log.Ltime is irrelevant. They are displayed
-	// all the same in the end: <date> <time>.
-	infoLog := log.New(
-		os.Stdout, "INFO\t", log.Ldate|log.Ltime,
-	)
-	errorLog := log.New(
-		os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile,
-	)
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	tc := make(map[string]*template.Template)
 

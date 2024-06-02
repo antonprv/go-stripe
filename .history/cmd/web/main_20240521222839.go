@@ -103,12 +103,8 @@ func main() {
 	// "INFO\t" and the like is the prefix for each logging message.
 	// Position of log.Ldate and log.Ltime is irrelevant. They are displayed
 	// all the same in the end: <date> <time>.
-	infoLog := log.New(
-		os.Stdout, "INFO\t", log.Ldate|log.Ltime,
-	)
-	errorLog := log.New(
-		os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile,
-	)
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	tc := make(map[string]*template.Template)
 
